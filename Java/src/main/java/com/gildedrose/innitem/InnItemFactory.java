@@ -14,6 +14,7 @@ public class InnItemFactory {
         if (AgedBrieItem.canDecorate(item)) return new AgedBrieItem(item);
         if (BackstagePassesItem.canDecorate(item)) return new BackstagePassesItem(item);
         if (SulfurasItem.canDecorate(item)) return new SulfurasItem(item);
+        if (ConjuredItem.canDecorate(item)) return new ConjuredItem(item);
         return new StandardInnItem(item);
     }
 }

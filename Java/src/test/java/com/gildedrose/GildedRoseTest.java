@@ -316,4 +316,88 @@ class GildedRoseTest {
             assertEquals(-10, items[0].sellIn);
         });
     }
+
+    @Test
+    void conjuredItem_sellByNotElapsed_degradeQuality() {
+        final Item[] items = new Item[]{new Item("Conjured Mana Cake", 99, 10)};
+        final GildedRose gildedRose = new GildedRose(items);
+
+        // Simulate 1 day
+        gildedRose.updateQuality();
+
+        assertAll(() -> {
+            assertEquals("Conjured Mana Cake", items[0].name);
+            assertEquals(8, items[0].quality);
+        });
+    }
+
+    @Test
+    void conjuredItem_sellByNotElapsed_degradeQualityToZero() {
+        final Item[] items = new Item[]{new Item("Conjured Mana Cake", 99, 10)};
+        final GildedRose gildedRose = new GildedRose(items);
+
+        // Simulate 20 days
+        IntStream.range(0, 20).forEach(days -> gildedRose.updateQuality());
+
+        assertAll(() -> {
+            assertEquals("Conjured Mana Cake", items[0].name);
+            assertEquals(0, items[0].quality);
+        });
+    }
+
+    @Test
+    void conjuredItem_sellByElapsed_degradeQuality() {
+        final Item[] items = new Item[]{new Item("Conjured Mana Cake", 0, 10)};
+        final GildedRose gildedRose = new GildedRose(items);
+
+        // Simulate 1 day
+        gildedRose.updateQuality();
+
+        assertAll(() -> {
+            assertEquals("Conjured Mana Cake", items[0].name);
+            assertEquals(6, items[0].quality);
+        });
+    }
+
+    @Test
+    void conjuredItem_sellByElapsed_degradeQualityToZero() {
+        final Item[] items = new Item[]{new Item("Conjured Mana Cake", 0, 10)};
+        final GildedRose gildedRose = new GildedRose(items);
+
+        // Simulate 20 days
+        IntStream.range(0, 20).forEach(days -> gildedRose.updateQuality());
+
+        assertAll(() -> {
+            assertEquals("Conjured Mana Cake", items[0].name);
+            assertEquals(0, items[0].quality);
+        });
+    }
+
+    @Test
+    void conjuredItem_decreaseSellIn_oneDay() {
+        final Item[] items = new Item[]{new Item("Conjured Mana Cake", 10, 10)};
+        final GildedRose gildedRose = new GildedRose(items);
+
+        // Simulate 1 day
+        gildedRose.updateQuality();
+
+        assertAll(() -> {
+            assertEquals("Conjured Mana Cake", items[0].name);
+            assertEquals(9, items[0].sellIn);
+        });
+    }
+
+    @Test
+    void conjuredItem_decreaseSellIn_multipleDays() {
+        final Item[] items = new Item[]{new Item("Conjured Mana Cake", 10, 10)};
+        final GildedRose gildedRose = new GildedRose(items);
+
+        // Simulate 20 days
+        IntStream.range(0, 20).forEach(days -> gildedRose.updateQuality());
+
+        assertAll(() -> {
+            assertEquals("Conjured Mana Cake", items[0].name);
+            assertEquals(-10, items[0].sellIn);
+        });
+    }
 }
